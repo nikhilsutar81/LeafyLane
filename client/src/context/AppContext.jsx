@@ -83,13 +83,42 @@ export const AppContextProvider = ({ children }) => {
         try {
             const { data } = await axiosInstance.get("/seller/logout")
             if (data.success) {
+                try {
+                    localStorage.removeItem('sellerToken')
+                    localStorage.removeItem('token')
+                } catch (e) {}
                 setIsSeller(false)
                 setProducts([])
+                setUser(null)
                 toast.success("Seller logged out")
 
             }
         } catch (error) {
             toast.error("Failed to logout")
+        }
+    }
+
+    const logout = async () => {
+        try {
+            const { data } = await axiosInstance.get('/user/logout')
+            if (data.success) {
+                try { localStorage.removeItem('token'); localStorage.removeItem('sellerToken'); } catch (e) {}
+                setUser(null)
+                setIsSeller(false)
+                setProducts([])
+                setCartItems(JSON.parse(localStorage.getItem('cart')) || {})
+                toast.success('Logged out')
+                navigate('/')
+            }
+        } catch (err) {
+            // still clear local tokens if server call fails
+            try { localStorage.removeItem('token'); localStorage.removeItem('sellerToken'); } catch (e) {}
+            setUser(null)
+            setIsSeller(false)
+            setProducts([])
+            setCartItems(JSON.parse(localStorage.getItem('cart')) || {})
+            toast.success('Logged out')
+            navigate('/')
         }
     }
 
@@ -247,7 +276,7 @@ export const AppContextProvider = ({ children }) => {
 
 
 
-    const value = { navigate, user, setIsSeller, setUser, isSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, changePage, pagination, fetchProducts, logoutSeller, isLoadingUser,setCartItems }
+    const value = { navigate, user, setIsSeller, setUser, isSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, changePage, pagination, fetchProducts, logoutSeller, logout, isLoadingUser,setCartItems }
     return <AppContext.Provider value={value}>
         {children}
     </AppContext.Provider>

@@ -13,10 +13,10 @@ import { Link, NavLink, Outlet } from "react-router";
          { name: "Orders", path: "/seller/orders", icon: assets.order_icon },
      ];
  
-     const logout = async () => {
-         
-         logoutSeller()
-     }
+    const { logout: logoutUser } = useAppContext()
+    const logout = async () => {
+        logoutUser()
+    }
      return (
          <>
              <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white">

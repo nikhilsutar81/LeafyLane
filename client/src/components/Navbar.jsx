@@ -26,19 +26,25 @@ const Navbar = () => {
    
    
     const handleLogout = async () => {
+        // Attempt server logout but always clear local client state so refresh won't re-authenticate
         try {
             const { data } = await axiosInstance.get("/user/logout")
-            if (data.success) {
+            if (data && data.success) {
                 toast.success(data.message)
-                const localCart = JSON.parse(localStorage.getItem('cart')) || {}
-                setCartItems(localCart)
-                setUser(null)
-                navigate("/")
-            } else {
+            } else if (data && data.message) {
                 toast.error(data.message)
             }
         } catch (error) {
-            toast.error(error.response.data.message)
+            // ignore server errors for logout; we'll clear client state anyway
+            // eslint-disable-next-line no-console
+            console.warn('Logout request failed:', error?.response?.data || error?.message || error)
+        } finally {
+            try { localStorage.removeItem('token'); localStorage.removeItem('sellerToken'); } catch (e) {}
+            const localCart = JSON.parse(localStorage.getItem('cart')) || {}
+            setCartItems(localCart)
+            setUser(null)
+            setIsSeller(false)
+            navigate('/')
         }
 
     }

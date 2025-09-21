@@ -48,17 +48,23 @@ export const AppContextProvider = ({ children }) => {
           setCartItems(mergedCart);
           localStorage.removeItem("cart");
       
-                } catch (err) {
-                    // If the server returns 401, the user is simply not authenticated — handle quietly.
-                    if (err?.response?.status === 401) {
-                        setUser(null);
-                        setCartItems(JSON.parse(localStorage.getItem('cart')) || {});
-                    } else {
-                        console.error("Failed to fetch user:", err);
-                    }
-                } finally {
-                    setIsLoadingUser(false);
-                }
+        } catch (err) {
+            // If the server returns 401, the user is simply not authenticated — handle quietly.
+            if (err?.response?.status === 401) {
+                setUser(null);
+                setCartItems(JSON.parse(localStorage.getItem('cart')) || {});
+            } else if (err?.message && err.message.includes('VITE_URL_ENDPOINT is not set')) {
+                // Warn once — production misconfiguration where frontend can't reach backend
+                // eslint-disable-next-line no-console
+                console.error('Frontend is not configured with a backend endpoint (VITE_URL_ENDPOINT).')
+            } else {
+                // Network error (server down or unreachable) — don't spam the console but record it.
+                // eslint-disable-next-line no-console
+                console.warn('Failed to fetch user (network or server error).', err?.message || err)
+            }
+        } finally {
+            setIsLoadingUser(false);
+        }
       };
       
     const fetchSeller = async () => {
@@ -70,11 +76,16 @@ export const AppContextProvider = ({ children }) => {
                 setIsSeller(false)
             }
         } catch (error) {
-            // 401 means no seller logged in — not an error to surface in console
+            // 401 means no seller logged in — not an error to surface.
             if (error?.response?.status === 401) {
                 setIsSeller(false)
+            } else if (error?.message && error.message.includes('VITE_URL_ENDPOINT is not set')) {
+                // production misconfig — already logged in axios
+                setIsSeller(false)
             } else {
-                console.error("Failed to fetch seller auth state:", error)
+                // Network error — backend unreachable.
+                // eslint-disable-next-line no-console
+                console.warn('Failed to fetch seller auth state (network or server error).', error?.message || error)
                 setIsSeller(false)
             }
         }

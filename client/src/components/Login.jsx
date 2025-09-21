@@ -35,6 +35,7 @@ const Login = () => {
             if (data?.success) {
                 navigate("/")
                 setUser(data.user)
+                if (data.token) localStorage.setItem('token', data.token)
                 setShowUserLogin(false)
             } else {
                 toast.error(data?.message || "Unexpected response from server")

@@ -19,4 +19,22 @@ const axiosInstance = axios.create({
   withCredentials: true,
 })
 
+// Attach Authorization header automatically when a token is present in localStorage.
+axiosInstance.interceptors.request.use((config) => {
+  try {
+    const userToken = localStorage.getItem('token')
+    const sellerToken = localStorage.getItem('sellerToken')
+    const token = userToken || sellerToken
+    if (token) {
+      config.headers = config.headers || {}
+      if (!config.headers.Authorization) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    }
+  } catch (err) {
+    // ignore localStorage errors
+  }
+  return config
+}, (error) => Promise.reject(error))
+
 export default axiosInstance

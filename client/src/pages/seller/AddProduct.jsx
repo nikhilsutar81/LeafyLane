@@ -29,9 +29,8 @@ const AddProduct = () => {
                 formData.append('images', files[i])
             }
             // If sellerToken exists in localStorage, add Authorization header for cross-origin auth
-            const token = localStorage.getItem('sellerToken')
-            const config = token ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } } : { headers: { 'Content-Type': 'multipart/form-data' } }
-            const { data } = await axiosInstance.post("/product/add", formData, config)
+            // axios interceptor will attach Authorization header if token present in localStorage
+            const { data } = await axiosInstance.post("/product/add", formData)
             if (data.success) {
                 toast.success(data.message)
                 setName("")

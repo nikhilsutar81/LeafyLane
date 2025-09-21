@@ -1,7 +1,8 @@
 <div align="center">
-  <h1><img src="https://leafylane-client.vercel.app/favicon.png" width="20" height="20" alt="LeafyLane Favicon">LeafyLane</h1>
+  <h1><img src="https://gocartshop.in/favicon.ico" width="20" height="20" alt="GoCart Favicon">
+   GoCart</h1>
   <p>
-    Full Stack Grocery Delivery Website build using MERN stack.
+    An open-source multi-vendor e-commerce platform built with Next.js and Tailwind CSS.
   </p>
 </div>
 

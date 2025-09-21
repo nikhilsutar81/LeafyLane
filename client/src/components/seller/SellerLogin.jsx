@@ -21,6 +21,10 @@ const SellerLogin = () => {
             e.preventDefault()
             const { data } = await axiosInstance.post('/seller/login', { email, password })
             if (data.success) {
+                // store token for cross-origin clients that cannot rely on cookies
+                if (data.token) {
+                    localStorage.setItem('sellerToken', data.token)
+                }
                 setIsSeller(true)
                 navigate("/seller")
             } else {

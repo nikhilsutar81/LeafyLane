@@ -28,7 +28,10 @@ const AddProduct = () => {
             for (let i = 0; i < files.length; i++) {
                 formData.append('images', files[i])
             }
-            const { data } = await axiosInstance.post("/product/add", formData)
+            // If sellerToken exists in localStorage, add Authorization header for cross-origin auth
+            const token = localStorage.getItem('sellerToken')
+            const config = token ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } } : { headers: { 'Content-Type': 'multipart/form-data' } }
+            const { data } = await axiosInstance.post("/product/add", formData, config)
             if (data.success) {
                 toast.success(data.message)
                 setName("")
@@ -42,7 +45,7 @@ const AddProduct = () => {
             }
 
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error?.response?.data?.message || error.message || 'Failed to add product')
         }
     }
     return (

@@ -96,7 +96,6 @@ const Navbar = () => {
 
                     <NavLink to="/" className="hover:bg-gray-50 py-2 px-2 rounded-lg transition-colors whitespace-nowrap">Home</NavLink>
                     <NavLink to="/products" className="hover:bg-gray-50 py-2 px-2 rounded-lg transition-colors whitespace-nowrap">All Products</NavLink>
-                    <NavLink to="/" className="hover:bg-gray-50 py-2 px-2 rounded-lg transition-colors whitespace-nowrap">Contact</NavLink>
 
                     <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
                         <input
@@ -195,7 +194,7 @@ const Navbar = () => {
 
                         <NavLink to="/" onClick={() => setOpen(false)} className="block py-2 px-2 hover:bg-gray-50 rounded-lg transition-colors">Home</NavLink>
                         <NavLink to="/products" onClick={() => setOpen(false)} className="block py-2 px-2 hover:bg-gray-50 rounded-lg transition-colors">All Products</NavLink>
-                        <NavLink to="/" onClick={() => setOpen(false)} className="block py-2 px-2 hover:bg-gray-50 rounded-lg transition-colors">Contact</NavLink>
+                        <button onClick={() => { setOpen(false); navigate('/seller') }} className="block w-full text-left py-2 px-2 hover:bg-gray-50 rounded-lg transition-colors">Seller Dashboard</button>
 
                         {user && (
                             <>

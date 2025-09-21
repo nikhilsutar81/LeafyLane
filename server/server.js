@@ -15,12 +15,35 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 4000
 // Allow common local dev origins and an optional CLIENT_URL from env
-const allowedOrigins = ['http://localhost:5173', 'https://leafylane-client.vercel.app']
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:4000', 'https://leafylane-client.vercel.app']
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({ origin: allowedOrigins, credentials: true, allowedHeaders: ['Content-Type', 'Authorization'] }))
+
+// Dynamic CORS handler: when credentials are used, browsers won't accept '*', so we echo allowed origins
+const corsOptions = {
+    origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps, curl, or same-origin)
+        if (!origin) return callback(null, true)
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true)
+        }
+        return callback(new Error('CORS policy: Origin not allowed'))
+    },
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}
+
+app.use((req, res, next) => {
+    // For OPTIONS preflight, respond quickly with the correct headers
+    if (req.method === 'OPTIONS') {
+        cors(corsOptions)(req, res, () => res.sendStatus(204))
+        return
+    }
+    cors(corsOptions)(req, res, next)
+})
 
 app.use(session({
     secret: process.env.JWT_SECRET,

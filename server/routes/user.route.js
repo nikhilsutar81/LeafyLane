@@ -18,6 +18,7 @@ router.patch(
 )
 
 router.get("/is-auth", authUser, isAuth)
-router.get("/logout", authUser, logout)
+// Make logout public so the client can clear cookies even when the auth token is invalid or expired
+router.get("/logout", logout)
 
 export default router

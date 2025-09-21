@@ -3,6 +3,7 @@ import { useAppContext } from "../context/AppContext"
 import { dummyOrders } from "../assets/assets"
 import { useEffect } from "react"
 import axiosInstance from "../api/axios"
+import toast from 'react-hot-toast'
 
 
 const MyOrders = () => {
@@ -24,7 +25,7 @@ const MyOrders = () => {
         if (user) {
             fetchMyOrders()
         }
-    }, [])
+    }, [user])
     return (
         <div className="mt-16 pb-16">
             <div className="flex flex-col items-end w-max mb-8">
@@ -38,24 +39,24 @@ const MyOrders = () => {
                         <span>Payment : {order.paymentType}</span>
                         <span>Total Amount: {currency}{order.amount}</span>
                     </p>
-                    {order.items.map((item, i) => (
+                    {Array.isArray(order.items) && order.items.map((item, i) => (
                         <div key={i} className={`relative bg-white text-gray-/50 ${order.items.length !== i + 1 && 'border-b'} border-gray-300 flex flex-col md:flex-row md:items-center justify-between p-4 py-5 md:gap-16 w-full max-w-4xl`}>
                             <div className="flex items-center mb-4 md:mb-0 ">
                                 <div className="bg-primary/10 p-4 rounded-lg">
-                                    <img src={item.product.image[0]} className="w-16 h-16" alt="Product image" />
+                                    <img src={(item?.product?.image && item.product.image[0]) || assets.box_icon} className="w-16 h-16" alt="Product image" />
                                 </div>
                                 <div className="ml-4">
-                                    <h2 className="text-xl font-medium text-gray-800">{item.product.name}</h2>
-                                    <p>Category: {item.product.category}</p>
+                                    <h2 className="text-xl font-medium text-gray-800">{item?.product?.name || 'Unknown product'}</h2>
+                                    <p>Category: {item?.product?.category || '—'}</p>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
-                                <p>Quantity: {item.quantity || "1"}</p>
+                                <p>Quantity: {item?.quantity || "1"}</p>
                                 <p>Status: {order.status}</p>
                                 <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                             </div>
                             <p className="text-primary text-lg font-medium">
-                                Amount: {currency}{item.product.offerPrice * item.quantity}
+                                Amount: {currency}{(item?.product?.offerPrice || 0) * (item?.quantity || 1)}
                             </p>
 
                         </div>

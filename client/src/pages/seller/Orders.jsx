@@ -3,6 +3,7 @@ import { useAppContext } from '../../context/AppContext';
 import { assets, dummyOrders } from '../../assets/assets';
 import { useEffect } from 'react';
 import axiosInstance from '../../api/axios';
+import toast from 'react-hot-toast'
 
 const Orders = () => {
   const { currency } = useAppContext()
@@ -33,11 +34,11 @@ const Orders = () => {
             <div className="flex gap-5 max-w-80">
               <img className="w-12 h-12 object-cover" src={assets.box_icon} alt="boxIcon" />
               <div className=''>
-                {order.items.map((item, index) => (
+                {Array.isArray(order.items) && order.items.map((item, index) => (
                   <div key={index} className="flex flex-col ">
                     <p className="font-medium">
-                      {item.product.name} 
-                      <span className={`text-primary ${item.quantity < 2 && "hidden"}`}>x {item.quantity}</span>
+                      {item?.product?.name || 'Unknown product'}
+                      <span className={`text-primary ${item?.quantity < 2 && "hidden"}`}>x {item?.quantity || 1}</span>
                     </p>
                   </div>
                 ))}

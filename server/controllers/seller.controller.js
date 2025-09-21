@@ -47,12 +47,15 @@ export const isASellerAuth = async (req, res) => {
 
 export const sellerLogout = async (req, res) => {
     try {
-        res.clearCookie("sellerToken", {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
             path: '/',
-        })
+        }
+
+        res.clearCookie("sellerToken", cookieOptions)
+        res.cookie('sellerToken', '', { ...cookieOptions, maxAge: 0 })
 
         return res.json({ success: true, message: "Logged out" })
     } catch (error) {

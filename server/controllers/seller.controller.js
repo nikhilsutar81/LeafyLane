@@ -12,8 +12,7 @@ export const sellerLogin = async (req, res) => {
                 expiresIn: "7d",
             })
 
-            // Set cookie for same-site clients
-            res.cookie("sellerToken", token, {
+                    res.cookie("sellerToken", token, {
                 httpOnly: true,
                 // Only use secure cookies in production
                 secure: process.env.NODE_ENV === "production",
@@ -22,8 +21,7 @@ export const sellerLogin = async (req, res) => {
                 maxAge: 7 * 24 * 60 * 60 * 1000, 
             })
 
-            // Also return token so cross-origin frontends (like deployed Vercel) can use it
-            return res.json({ success: true, message: "Seller logged in", token })
+            return res.json({ success: true, message: "Seller logged in" })
         }
 
         return res

@@ -1,24 +1,16 @@
 import jwt from "jsonwebtoken"
 
 const authSeller = (req, res, next) => {
-    // Accept token from cookie or Authorization header (Bearer token)
-    let token = null
-    if (req.cookies && req.cookies.sellerToken) token = req.cookies.sellerToken
-    const authHeader = req.headers.authorization || req.headers.Authorization
-    if (!token && authHeader && authHeader.startsWith && authHeader.startsWith('Bearer ')) {
-        token = authHeader.split(' ')[1]
-    }
+    const { sellerToken } = req.cookies
 
-    if (!token) {
+    if (!sellerToken) {
         return res.status(401).json({ success: false, message: "Not Authorized" })
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET)
 
         if (decoded?.email === process.env.SELLER_EMAIL) {
-            // attach seller info for downstream handlers if needed
-            req.seller = { email: decoded.email }
             next()
         } else {
             return res.status(403).json({ success: false, message: "Access denied" })

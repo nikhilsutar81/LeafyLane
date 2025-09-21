@@ -45,8 +45,7 @@ export const register = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
 
-    // Also return token for cross-origin clients to use in Authorization header
-    return res.status(201).json({ success: true, user: userWithoutPassword, token })
+        return res.status(201).json({ success: true, user: userWithoutPassword })
     } catch (error) {
         console.log(error)
         res.status(500).json({ success: false, message: error.message })
@@ -85,8 +84,7 @@ export const login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
 
-    // Return token as well so clients can store it when cookies aren't available
-    return res.status(200).json({ success: true, user: userWithoutPassword, token })
+        return res.status(200).json({ success: true, user: userWithoutPassword })
     } catch (error) {
         console.log(error)
         res.status(500).json({ success: false, message: "Server error" })

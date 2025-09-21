@@ -28,8 +28,6 @@ const AddProduct = () => {
             for (let i = 0; i < files.length; i++) {
                 formData.append('images', files[i])
             }
-            // If sellerToken exists in localStorage, add Authorization header for cross-origin auth
-            // axios interceptor will attach Authorization header if token present in localStorage
             const { data } = await axiosInstance.post("/product/add", formData)
             if (data.success) {
                 toast.success(data.message)
@@ -44,7 +42,7 @@ const AddProduct = () => {
             }
 
         } catch (error) {
-            toast.error(error?.response?.data?.message || error.message || 'Failed to add product')
+            toast.error(error.response.data.message)
         }
     }
     return (

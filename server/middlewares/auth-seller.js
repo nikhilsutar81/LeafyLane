@@ -1,14 +1,20 @@
 import jwt from "jsonwebtoken"
 
 const authSeller = (req, res, next) => {
-    const { sellerToken } = req.cookies
+    // Accept token from cookie or Authorization header
+    let token = null
+    if (req.cookies && req.cookies.sellerToken) token = req.cookies.sellerToken
+    const authHeader = req.headers.authorization || req.headers.Authorization
+    if (!token && authHeader && authHeader.startsWith && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1]
+    }
 
-    if (!sellerToken) {
+    if (!token) {
         return res.status(401).json({ success: false, message: "Not Authorized" })
     }
 
     try {
-        const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         if (decoded?.email === process.env.SELLER_EMAIL) {
             next()
@@ -17,6 +23,16 @@ const authSeller = (req, res, next) => {
         }
 
     } catch (error) {
+        try {
+            const cookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                path: '/',
+            }
+            res.clearCookie('sellerToken', cookieOptions)
+            res.cookie('sellerToken', '', { ...cookieOptions, maxAge: 0 })
+        } catch (e) {}
         res.status(401).json({ success: false, message: error.message })
     }
 }

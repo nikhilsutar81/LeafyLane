@@ -15,10 +15,7 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 4000
 // Allow common local dev origins and an optional CLIENT_URL from env
-const allowedOrigins = [
-    process.env.CLIENT_URL || 'http://localhost:5173',
-    'http://127.0.0.1:5173',
-]
+const allowedOrigins = ['http://localhost:5173', 'https://leafylane-client.vercel.app']
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())

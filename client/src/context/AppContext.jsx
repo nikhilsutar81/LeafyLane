@@ -201,11 +201,18 @@ export const AppContextProvider = ({ children }) => {
         }
         return Math.floor(totalAmount * 100) / 100
     }
+    // Only attempt automatic auth checks on load if a token exists in localStorage
+    // or if the deployment explicitly opts in via VITE_ALWAYS_TRY_AUTH=true.
     useEffect(() => {
-        fetchSeller()
-    }, [])
-    useEffect(() => {
-        fetchUser()
+        const alwaysTry = import.meta.env.VITE_ALWAYS_TRY_AUTH === 'true'
+        const hasToken = (() => { try { return !!localStorage.getItem('token') || !!localStorage.getItem('sellerToken') } catch (e) { return false } })()
+        if (hasToken || alwaysTry) {
+            fetchSeller()
+            fetchUser()
+        } else {
+            // ensure loading is finished so UI isn't blocked
+            setIsLoadingUser(false)
+        }
     }, [])
 
     useEffect(() => {

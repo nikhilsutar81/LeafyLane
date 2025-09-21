@@ -1,0 +1,66 @@
+<div align="center">
+  <h1><img src="https://leafylane-client.vercel.app/favicon.png" width="20" height="20" alt="LeafyLane Favicon">LeafyLane</h1>
+  <p>
+    Full Stack Grocery Delivery Website build using MERN stack.
+  </p>
+</div>
+
+---
+
+# Table of Contents
+
+- Features
+- Tech Stack
+- Screenshots
+- Credentials
+
+---
+
+# Features
+
+- 🧑‍💼 User authentication (Email/Password or Google OAuth via Passport.js)
+- 🛠️ Profile update support
+- 🛍️ Browse and filter products by category
+- 🔍 Product search functionality
+- 🛒 Add/remove items from the cart
+- 💳 Two payment methods: **Stripe** (online) or **Cash on Delivery**
+- 📦 Admin dashboard for order and product management (WIP/future scope)
+- ☁️ Image upload with **Cloudinary**
+
+---
+
+# Tech Stack
+
+- **Frontend**: React, Tailwind CSS, Axios, React Router DOM
+- **Backend**: Node.js, Express, MongoDB (Mongoose)
+- **Authentication**: Passport.js (with Google OAuth)
+- **Payments**: Stripe API (with webhook support)
+- **Media Hosting**: Cloudinary
+- **Deployment**: Vercel (frontend), Render (or local for backend)
+
+---
+
+# Screenshots
+
+# SchedRx client side
+<img width="1899" height="916" alt="Screenshot 2025-09-15 122848" src="https://github.com/user-attachments/assets/24499958-5e25-4e75-b681-5b706f1f3c2e" />
+
+
+# SchedRx Admin Panel:
+<img width="1898" height="911" alt="Screenshot 2025-09-20 201644" src="https://github.com/user-attachments/assets/c0c6ed2f-bdf9-4052-b7f6-b60298764b8c" />
+
+# Doctor's Panel:
+<img width="1898" height="908" alt="Screenshot 2025-09-20 201845" src="https://github.com/user-attachments/assets/5922ae0b-df4f-4734-a98a-d0bd2f5b8bdf" />
+
+---
+
+# Credentials:
+
+- **ADMIN PANEL**  
+**Email:** leafylane@gmail.com  
+**Password:** leafylane@123
+
+
+
+
+

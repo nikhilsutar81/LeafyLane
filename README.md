@@ -12,7 +12,6 @@
 - Features
 - Tech Stack
 - Screenshots
-- Credentials
 
 ---
 
@@ -50,10 +49,5 @@
 
 ---
 
-# Credentials:
-
-- **SELLER PANEL**  
-**Email:** leafylane@gmail.com  
-**Password:** leafylane@123
 
 

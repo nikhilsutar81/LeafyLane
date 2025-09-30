@@ -1,7 +1,7 @@
 <div align="center">
   <h1><img src="https://leafylane-client.vercel.app/favicon.png" width="20" height="20" alt=":LeafyLane Favicon">LeafyLane</h1>
   <p>
-    A modern <b>Full-Stack Grocery Delivery Platform</b> built with the <b>MERN Stack</b>, featuring user authentication, product browsing, secure payments, and an admin panel for product/order management.
+    A modern <b>Full-Stack Grocery Delivery Platform</b> built with the <b>MERN Stack</b>, featuring user authentication, product browsing and an admin panel for product/order management.
   </p>
 </div>
 
@@ -21,13 +21,12 @@
 
 # 📝 Description
 LeafyLane is a **grocery delivery web application** designed to replicate the real-world workflow of e-commerce platforms.  
-It allows users to **browse products, filter categories, add to cart, and checkout** via online payment (Stripe) or Cash on Delivery.  
+It allows users to **browse products, filter categories, add to cart, and checkout** via Cash on Delivery.  
 
 This project demonstrates end-to-end knowledge of:
 - **Frontend (React + Tailwind)** for building fast, responsive UIs.  
 - **Backend (Node.js + Express + MongoDB)** for API development and data persistence.  
 - **Authentication (Passport.js + OAuth)** to secure access.  
-- **Payments (Stripe)** for real-world checkout flows.  
 - **Media Uploads (Cloudinary)** for scalable asset management.  
 
 > 🚀 This project showcases my **MERN Stack proficiency** and ability to design scalable full-stack applications.
@@ -53,7 +52,6 @@ This project demonstrates end-to-end knowledge of:
 - **Frontend**: React, Tailwind CSS, Axios, React Router DOM
 - **Backend**: Node.js, Express, MongoDB (Mongoose)
 - **Authentication**: Passport.js (with Google OAuth)
-- **Payments**: Stripe API (with webhook support)
 - **Media Hosting**: Cloudinary
 - **Deployment**: Vercel (frontend)
 
